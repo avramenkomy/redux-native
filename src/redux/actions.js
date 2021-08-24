@@ -1,4 +1,4 @@
-import {CHANGE_THEME, DECREMENT, INCREMENT} from "./types";
+import {CHANGE_THEME, DECREMENT, DISABLE_BTN, ENABLE_BTN, INCREMENT} from "./types";
 
 export function increment() {
     return {
@@ -12,11 +12,25 @@ export function decrement() {
     }
 }
 
+export function enableBtn() {
+    return {
+        type: ENABLE_BTN
+    }
+}
+
+export function disableBtn() {
+    return {
+        type: DISABLE_BTN
+    }
+}
+
 export function asyncIncrement() {
     return function(dispatch) {
+        dispatch(disableBtn());
         setTimeout(() => {
-            dispatch(increment())
-        }, 2000)
+            dispatch(increment());
+            dispatch(enableBtn());
+        }, 2000);
     }
 }
 

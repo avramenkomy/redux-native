@@ -1,4 +1,4 @@
-import {createStore, applyMiddleware} from "redux";
+import {createStore, applyMiddleware, compose} from "redux";
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import {rootReducer} from "./redux/rootReducer";
@@ -26,7 +26,10 @@ const themeBtn = document.getElementById('theme');
 // создаем объект store, который умеет взаимодействовать с данными и сообщать компоненту,
 // что произошли те или иные изменения
 // при создании передаем reducer без вызова как референс
-const store = createStore(rootReducer, applyMiddleware(thunk, logger));
+const store = createStore(rootReducer, compose(
+    applyMiddleware(thunk, logger),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+));
 
 // добавляем прослушку событий
 addBtn.addEventListener('click', () => {
@@ -52,6 +55,7 @@ store.subscribe(() => {
     const state = store.getState(); // получаем state
     counter.textContent = state.counter; // передаем значение в DOM ноду counter  и перерисовываем компонент
     document.body.className = state.theme.value;
+    [addBtn, subBtn, themeBtn, asyncBtn].forEach(btn => btn.disabled = state.theme.disabled);
 });
 
 // что бы счетчие отрисовывался из начального состояния приложения нужно задиспатчить несущетсвующий экшн
