@@ -1,7 +1,8 @@
-import {createStore} from "redux";
+import {createStore, applyMiddleware} from "redux";
+import thunk from 'redux-thunk';
 import {rootReducer} from "./redux/rootReducer";
-import './styles.css';
 import {decrement, increment} from "./redux/actions";
+import './styles.css';
 
 // поиск элементов в DOM-дереве по id
 const counter = document.getElementById('counter');
@@ -13,7 +14,7 @@ const themeBtn = document.getElementById('theme');
 // создаем объект store, который умеет взаимодействовать с данными и сообщать компоненту,
 // что произошли те или иные изменения
 // при создании передаем reducer без вызова как референс и начальное состояние счетчика
-const store = createStore(rootReducer, 0);
+const store = createStore(rootReducer, 0, applyMiddleware(thunk));
 
 // добавляем прослушку событий
 addBtn.addEventListener('click', () => {
