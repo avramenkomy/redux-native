@@ -1,6 +1,7 @@
 import {createStore} from "redux";
 import {rootReducer} from "./redux/rootReducer";
 import './styles.css';
+import {DECREMENT, INCREMENT} from "./redux/types";
 
 // поиск элементов в DOM-дереве по id
 const counter = document.getElementById('counter');
@@ -16,11 +17,11 @@ const store = createStore(rootReducer, 0);
 
 // добавляем прослушку событий
 addBtn.addEventListener('click', () => {
-    store.dispatch({ type: 'INCREMENT' });
+    store.dispatch({ type: INCREMENT });
 });
 
 subBtn.addEventListener('click', () => {
-    store.dispatch({ type: 'DECREMENT' });
+    store.dispatch({ type: DECREMENT });
 });
 
 asyncBtn.addEventListener('click', () => {
